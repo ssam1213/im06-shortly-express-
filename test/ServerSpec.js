@@ -137,12 +137,12 @@ describe('', function() {
       it('Fetches the link url title', function (done) {
         requestWithSession(options, function(error, res, body) {
           db.knex('urls')
-            .where('title', '=', 'Funny pictures of animals, funny dog pictures')
+            .where('title', '=', 'Google')
             .then(function(urls) {
               if (urls['0'] && urls['0']['title']) {
                 var foundTitle = urls['0']['title'];
               }
-              expect(foundTitle).to.equal('Funny pictures of animals, funny dog pictures');
+              expect(foundTitle).to.equal('Google');
               done();
             });
         });
@@ -158,7 +158,7 @@ describe('', function() {
         // save a link to the database
         link = new Link({
           url: 'http://www.google.co.kr',
-          title: 'Funny pictures of animals, funny dog pictures',
+          title: 'Google',
           baseUrl: 'http://127.0.0.1:4568'
         });
         link.save().then(function() {
@@ -191,7 +191,7 @@ describe('', function() {
 
         requestWithSession(options, function(error, res, body) {
           var currentLocation = res.request.href;
-          expect(currentLocation).to.equal('http://www.google.co.kr');
+          expect(currentLocation).to.equal('http://www.google.co.kr/');
           done();
         });
       });
@@ -203,7 +203,7 @@ describe('', function() {
         };
 
         requestWithSession(options, function(error, res, body) {
-          expect(body).to.include('"title":"Funny pictures of animals, funny dog pictures"');
+          expect(body).to.include('"title":"Google"');
           expect(body).to.include('"code":"' + link.get('code') + '"');
           done();
         });
